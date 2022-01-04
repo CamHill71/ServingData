@@ -12,12 +12,13 @@ from db import DataBase
 
 app = Flask(__name__)
 
-
 @app.route('/')
-def load_show_last_10():
+@app.route('/<number>')
+def load_show_last_10(number=10):
     db = DataBase()
-    history = db.get_last(10)   
-    return render_template('load-history.html',history=history,length = len(history))
+    history = db.get_last(number)   
+    print(f"{number}")
+    return render_template('load-history.html',history=history)
 
 
 def main():

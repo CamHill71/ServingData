@@ -28,8 +28,8 @@ class DataBase:
         self.session = Session()       
     
     
-    def get_last(self,limit):
-        query = self.session.query(Weather.id,  Weather.taken_at,Weather.temperature).order_by(desc(Weather.id)).limit(10)
+    def get_last(self,quantity):
+        query = self.session.query(Weather.id,  Weather.taken_at,Weather.temperature).order_by(desc(Weather.id)).limit(quantity)
         return [ letter for letter in query ]    
 
     def input_data(self,temp,time_now):

@@ -22,11 +22,11 @@ Quick CPU Load Monitor
     </thead>
     <tbody>
         <!--for each row in history -->
-        {% for count in range(0,length) %}
+        {% for item in history %}
         <tr>
-            <td>{{history[count]["id"]}}</td>
-            <td>{{history[count]["taken_at"]}}</td>
-            <td>{{history[count]["temperature"]}}</td>
+            <td>{{item["id"]}}</td>
+            <td>{{item["taken_at"]}}</td>
+            <td>{{item["temperature"]}}</td>
         </tr>
         {% endfor %}
         <!-- end foreach-->
