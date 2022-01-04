@@ -6,7 +6,7 @@
     Program: File.py Author: Cameron Hill.
 
 """
-from db import input_data
+from db import DataBase
 import requests
 from time import sleep
 from datetime import datetime
@@ -19,6 +19,7 @@ def get_weather_data(city):
 def main():
     """Program Call Hub""" 
     delay = 600
+    db = DataBase()
     while True:
         r = get_weather_data('perth')
         weather = {
@@ -28,12 +29,9 @@ def main():
         'icon' : r['weather'][0]['icon'],        
         }
         
-        input_data(weather['temperature'],datetime.now())
+        db.input_data(weather['temperature'],datetime.now().replace(microsecond=0))
         print(f"{datetime.now()}")
         sleep(delay)
-        
-
-
 
 if __name__ == "__main__":
     main()
