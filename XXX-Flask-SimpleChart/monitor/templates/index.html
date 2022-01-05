@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block page_css %}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h1>Welcome to Flask & ChartJS Demo</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <dl>
+                <dt>
+                    <a href="/static-chart">
+                        Static charts
+                    </a>
+                </dt>
+                <dd>Pie, Line and Bar chart examples</dd>
+                <dt>
+                    <a href="/static-chart">
+                        Random charts
+                    </a>
+                </dt>
+                <dd>Using JavaScript to randomly update the charts</dd>
+                <dt>
+                    <a href="/static-chart">
+                        Dynamic charts
+                    </a>
+                </dt>
+                <dd>AJAX and Python to update the Pie Chart in real-time</dd>
+            </dl>
+        </div>
+    </div>
+{% endblock %}
+
+{% block page_scripts %}
+{% endblock %}

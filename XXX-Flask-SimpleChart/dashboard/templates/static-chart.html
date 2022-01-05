@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Static Chart
+{% endblock %}
+
+{% block page_css %}
+    <link href="/static/vendor/css/Chart.css" rel="stylesheet"
+          crossorigin="anonymous">
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-6">
+            <canvas id="static-chart"></canvas>
+        </div>
+        <div class="col-6">
+            <canvas id="pie-chart"></canvas>
+        </div>
+        <div class="col-6">
+            <canvas id="line-chart"></canvas>
+        </div>
+    </div>
+{% endblock %}
+
+{% block page_scripts %}
+    <script src="/static/vendor/js/Chart.bundle.js"></script>
+
+    <script src="/static/js/bar-chart.js"></script>
+    <script src="/static/js/pie-chart.js"></script>
+    <script src="/static/js/line-chart.js"></script>
+{% endblock %}
