@@ -1,7 +1,8 @@
 from flask import Flask, render_template, jsonify
+from flask_cors import CORS
 
 app = Flask(__name__)
-
+cors = CORS(app,resources={r"/api/*":{"origins":"*"}})
 
 @app.route('/api/cpu-load/<qty>')
 def cpu_load(qty=1):
@@ -41,10 +42,10 @@ def cpu_load(qty=1):
 
 @app.route('/api/cpu-load')
 def cpu_load_latest():
-    return cpu_load(1)
+    return cpu_load(5)
 
 
-@app.route('/')
+@app.route('/api/')
 def index():
     return render_template('index.html')
 

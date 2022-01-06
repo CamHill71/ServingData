@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Dynamic Chart
+{% endblock %}
+
+{% block page_css %}
+    <link href="/static/vendor/css/Chart.css" rel="stylesheet"
+          crossorigin="anonymous">
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-6">
+            <canvas id="line-dynamic"></canvas>
+        </div>
+        <div>
+            <canvas id="dynamic22"></canvas>
+        </div>
+    </div>
+    
+{% endblock %}
+
+{% block pagescripts %}
+    <script src="/static/vendor/js/Chart.bundle.js"></script>
+    <!--<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>-->
+    
+
+    <script src="/static/js/line-dynamic.js"></script>
+
+{% endblock %}

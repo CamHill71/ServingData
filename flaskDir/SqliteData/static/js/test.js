@@ -6,7 +6,7 @@
 
 (function(){
   "use strict"
-  let url = "http://127.0.0.1:5000/api/cpu-load/1"; //"https://reqres.in/api/users"; //apps chart url
+  let url = "http://127.0.0.1:5000/api/cpu-load/5"; //"https://reqres.in/api/users"; //apps chart url
   let method = "GET";
   let typeOfResponse = "json";
 
