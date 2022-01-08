@@ -18,8 +18,7 @@ cors = CORS(app,resources={r"/api/*":{"origins":"*"}})
 @app.route('/<number>')
 def load_show_last_10(number=10):
     db = DataBase()
-    history = db.get_last(number)   
-    print(f"{number}")
+    history = db.get_last(number)       
     return render_template('load-history.html',history=history)
 
 @app.route('/a')

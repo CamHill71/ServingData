@@ -14,10 +14,16 @@ from datetime import datetime
 from sqlalchemy.sql.expression import desc
 import os
 
-# Keep db in working directory
-dir_name = (__file__.replace('/'+ os.path.basename(__file__),''))
-SQLALCHEMY_DATABASE_URI = f"sqlite:////{dir_name}/mydb.db"
+BASE_DIR = ''
+SQLALCHEMY_DATABASE_URI = ''
 
+if os.name == "nt":
+    BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+    SQLALCHEMY_DATABASE_URI = f"sqlite:///{BASE_DIR}/mydb.db"
+else:
+    BASE_DIR = (__file__.replace('/'+ os.path.basename(__file__),''))
+    SQLALCHEMY_DATABASE_URI = f"sqlite:////{BASE_DIR}/mydb.db"
+        
 Base = declarative_base()
 
 class DataBase:
@@ -29,7 +35,7 @@ class DataBase:
     
     
     def get_last(self,quantity):
-        query = self.session.query(Weather.id,  Weather.taken_at,Weather.temperature).order_by(desc(Weather.id)).limit(quantity)
+        query = self.session.query(Weather.id,  Weather.taken_at,Weather.temperature).order_by(desc(Weather.id)).limit(quantity)      
         return [ letter for letter in query ]    
 
     def input_data(self,temp,time_now):
