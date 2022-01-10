@@ -5,8 +5,13 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-6">
-            <canvas id="myChart"></canvas>
+        <div class="col-9">
+            <canvas id="percentageChart"></canvas>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-9">
+            <canvas id="moneyChart"></canvas>
         </div>
     </div>
 
@@ -20,9 +25,11 @@
 {% block pageScripts %}
 
 <script type="text/javascript">
-    var resultList = JSON.parse('{{myString | tojson}}')
+    var resultList = JSON.parse('{{percentage_data | tojson}}')
+    var resultList2 = JSON.parse('{{money_data | tojson}}')    
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="static/js/chart.min.js"></script>
+<script src="static/js/money_chart.js"></script>
 {% endblock%}

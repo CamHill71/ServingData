@@ -1,19 +1,19 @@
 (function () {
 
     'use strict'
+    const ctx = document.getElementById('moneyChart').getContext('2d');
 
-    const ctx = document.getElementById('percentageChart').getContext('2d');
 
     var lineData = {
         datasets: [{
-            label: 'Holdings overall percentage',
+            label: 'Holdings overall $gain/loss',
             line: '',
             data: [],
             borderWidth: 2,
             lineTension: 0.2,
             fill: false,
             borderColor: [
-                'rgba(128, 64, 65, 1)',
+                'rgba(35, 115, 61, 1)',
             ],
         }, ],
     };
@@ -39,8 +39,8 @@
                 display: true,
                 lablestring: "Percentage",
                 beginAtZero: true,
-                suggestedMin: -200,
-                suggestedMax: 200
+                suggestedMin: -10,
+                suggestedMax: 10
 
             }
         }
@@ -56,15 +56,15 @@
     var recurring_sum = 0.0;
     var last_sum = 0.0;
 
-    for (let i = 0; i < resultList.length; i++) {
-        let new_string = resultList[i].replace("(", "").replace(")", "");
-        let split_string = new_string.split(",");
+    for (let i = 0; i < resultList2.length; i++) {
+
+        let new_string = resultList2[i];
 
         // label
-        myChart.data.labels.push(split_string[0]);
+        myChart.data.labels.push(new_string[0]);
 
-        // recurring data
-        recurring_sum = (last_sum + parseFloat(split_string[1]));
+        // recurring data       
+        recurring_sum = (last_sum + parseFloat(new_string[1]));
 
         // data
         myChart.data.datasets[0].data.push(recurring_sum);

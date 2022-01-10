@@ -7,7 +7,7 @@
 
 """
 
-from sqlalchemy import create_engine,Column,Integer,String
+from sqlalchemy import create_engine,Column,Integer,String, engine
 from sqlalchemy.orm import  sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 import json
@@ -20,7 +20,7 @@ from sqlalchemy.sql.expression import text
 
 connection_uri = ("mysql+pymysql://root:Chilly1971*@localhost/djangodb")
 Base = declarative_base()
-table_name = ''
+engine_string = ["mysql+pymysql://root:Chilly1971*@localhost/grails1"]
 
 
 class DataBase:
@@ -32,6 +32,7 @@ class DataBase:
         self.holdings = {}
         self.chartData_raw = {}
         self.percentage_results = {}
+        self.money_results = {}
         
     def __str__(self) -> str:
         pass
@@ -48,36 +49,43 @@ class DataBase:
                 if len(row[0].strip()) == 3:                    
                     if float(row[2]) != 0.0:
                         self.holdings[row[0]] = (row[1],row[2])   
-                        
-                        
-    def holdings_last_days(self,qty):
-        """ Get combined stock 90 day data, output a percentage"""
-        engine = create_engine("mysql+pymysql://root:Chilly1971*@localhost/grails1")     
-        with engine.connect() as conn:
+       
+    def get_close(self,qty):
+        """ Get list of stock closing prices """ 
+        engine = create_engine(engine_string[0])
+        with engine.connect()  as conn:
             for stock in self.holdings.keys():
                 result = conn.execute(text(f"SELECT `EntryDate`,`Close` FROM grails1.asx_{stock} where `EntryDate` >= date_add(date(now()),interval -{qty} day)"))   
                 self.chartData_raw[stock] = result.all()
             
-            active_days = self.dates.getStockDates(float(qty))
-            eod_price = 1
-            stock_date = 0
-            for day in active_days[1:len(active_days)-1]:
-                eod_list = []                
-                for stock in self.chartData_raw.keys():                    
-                    stock_list = self.chartData_raw[stock]
-                    count = 0
-                    if (day in itertools.chain(*stock_list)):
-                        for date in stock_list:
-                            if day == date[stock_date]:
-                                previousDay = stock_list[count-1][eod_price]
-                                currentDay = date[eod_price]
-                                percent = ((previousDay - currentDay) / currentDay) * 100
-                                eod_list.append(percent)
-                            count += 1
-                                           
-                self.percentage_results[str(day)] = round(sum(eod_list)) 
-            print(f"{len(self.percentage_results)}")
-            return  [ str(item) for item in self.percentage_results.items()]              
+
+    def holdings_last_days(self,qty):
+        """ Get combined stock 90 day data, output a percentage""" 
+        self.get_close(qty)        
+        active_days = self.dates.getStockDates(float(qty))
+        eod_price = 1
+        stock_date = 0
+        for day in active_days[1:len(active_days)-1]:
+            eod_list = []
+            eod_moneyValue = []                
+            for stock in self.chartData_raw.keys():                    
+                stock_list = self.chartData_raw[stock]
+                count = 0
+                if (day in itertools.chain(*stock_list)):
+                    for date in stock_list:
+                        if day == date[stock_date]:
+                            previousDay = stock_list[count-1][eod_price]
+                            currentDay = date[eod_price]
+                            percent = ((currentDay - previousDay) / previousDay) * 100                            
+                            eod_list.append(percent)
+                            eod_moneyValue.append(float((currentDay-previousDay)) * float(self.holdings[stock][0]))
+                                                   
+                        count += 1                  
+                
+            self.percentage_results[str(day)] = round(sum(eod_list)) 
+            self.money_results[str(day)] = sum(eod_moneyValue)           
+
+        return  [ str(item) for item in self.percentage_results.items()] ,[ item for item in self.money_results.items()]              
 
                                         
                      
