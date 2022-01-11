@@ -23,13 +23,13 @@ class StockDates():
         days = networkdays.Networkdays(datetime.date(before_x_days),datetime.date(self.date_now),self.holidays)
         return days.networkdays()
        
-                
 
 
 def main():
     """Program Call Hub""" 
     dates = StockDates()
-    dates.getStockDates()
+    #dates.getStockDates()
+    dates.get_Eod()
 
 
 if __name__ == "__main__":

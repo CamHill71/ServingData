@@ -35,13 +35,8 @@ class DataBase:
         self.money_results = {}
         
     def __str__(self) -> str:
-        pass
-       
+        pass   
 
-    def get_last(self,quantity):
-        query = self.session.query(Books).all()        
-        return [ letter for letter in query ] 
-    
     def get_holdings(self):
         """ Get list of holding stocks from CSV form"""
         with open('myFlask/ServingData/flaskDir/mysqlData/Holdings_9010242_09-01-2022.csv', newline='') as csvfile:
@@ -49,9 +44,16 @@ class DataBase:
             for row in csvreader:
                 if len(row[0].strip()) == 3:                    
                     if float(row[2]) != 0.0:
-                        self.holdings[row[0]] = (row[1],row[2])  
-                         
-            return self.holdings                
+                        self.holdings[row[0]] = [row[1],row[2]]
+                        
+        eodTrade = self.get_close(0)
+        for key,value in self.holdings.items():
+            close = eodTrade[key]                
+            oldList = value
+            oldList.append(close[0][1]) 
+            self.holdings[key] = oldList        
+
+        return self.holdings                
        
     def get_close(self,qty):
         """ Get list of stock closing prices """ 
@@ -60,7 +62,8 @@ class DataBase:
             for stock in self.holdings.keys():
                 result = conn.execute(text(f"SELECT `EntryDate`,`Close` FROM grails1.asx_{stock} where `EntryDate` >= date_add(date(now()),interval -{qty} day)"))   
                 self.chartData_raw[stock] = result.all()
-            
+                
+        return self.chartData_raw    
 
     def holdings_last_days(self,qty):
         """ Get combined stock 90 day data, output a percentage""" 
@@ -90,30 +93,11 @@ class DataBase:
 
         return  [ str(item) for item in self.percentage_results.items()] ,[ item for item in self.money_results.items()]              
 
-                                        
-                     
-
-class Books(Base):
-    __tablename__ = "books_book"
-    
-    id = Column(Integer(),primary_key=True, autoincrement=True)   
-    title = Column(String()) 
-    
-    def __str__(self) -> str:
-        return super().__str__()
 
 def main():
     """Program Call Hub""" 
     mydata = DataBase(connection_uri)
-    mydata.get_holdings()
-    #query = mydata.get_last(10)
-    query2 = mydata.holdings_last_days()
-    #print(f"{query[0].id}")
-
-
-
-
-
+    mydata.get_holdings()  
 
 if __name__ == "__main__":
     main()

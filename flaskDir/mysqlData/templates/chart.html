@@ -5,7 +5,7 @@
 
 <div class="container mx-5">
     <div class="row ">
-        <div  class="col-3">
+        <div class="col-3">
             <p class="h2">Holdings</p>
             <table id="stockList" class="table">
                 <thead>
@@ -13,38 +13,40 @@
                         <th scope="col">Code</th>
                         <th scope="col">Vol</th>
                         <th scope="col">Purchase $</th>
+                        <th scope="col">EOD $</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {% for each in holdings %}         
+                    {% for each in holdings %}
                     <tr>
                         <td>{{ each }}</td>
                         <td>{{holdings[each][0]}}</td>
                         <td>{{holdings[each][1]}}</td>
+                        {% if ( holdings[each][1] | float) > holdings[each][2]  %}
+                        <td style="color:Tomato;">{{holdings[each][2]}}</td>
+                        {% else %}
+                        <td>{{holdings[each][2]}}</td>
+                        {% endif %}
+
+                                             
+                        
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
         </div>
-        <div class="col">    
+        <div class="col">
             <div class="row">
                 <canvas id="percentageChart"></canvas>
             </div>
-          
-                <div class="row">
-                    <canvas id="moneyChart"></canvas>
-                </div>
-          
+
+            <div class="row">
+                <canvas id="moneyChart"></canvas>
+            </div>
+
         </div>
 
-
     </div>
-
-
-
-
-
-
 
 </div>
 
@@ -63,4 +65,5 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="static/js/chart.min.js"></script>
 <script src="static/js/money_chart.js"></script>
+
 {% endblock%}
