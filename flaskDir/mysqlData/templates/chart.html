@@ -3,17 +3,48 @@
 
 {% block content %}
 
-<div class="container">
-    <div class="row">
-        <div class="col-9">
-            <canvas id="percentageChart"></canvas>
+<div class="container mx-5">
+    <div class="row ">
+        <div  class="col-3">
+            <p class="h2">Holdings</p>
+            <table id="stockList" class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Code</th>
+                        <th scope="col">Vol</th>
+                        <th scope="col">Purchase $</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for each in holdings %}         
+                    <tr>
+                        <td>{{ each }}</td>
+                        <td>{{holdings[each][0]}}</td>
+                        <td>{{holdings[each][1]}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-9">
-            <canvas id="moneyChart"></canvas>
+        <div class="col">    
+            <div class="row">
+                <canvas id="percentageChart"></canvas>
+            </div>
+          
+                <div class="row">
+                    <canvas id="moneyChart"></canvas>
+                </div>
+          
         </div>
+
+
     </div>
+
+
+
+
+
+
 
 </div>
 
@@ -26,7 +57,7 @@
 
 <script type="text/javascript">
     var resultList = JSON.parse('{{percentage_data | tojson}}')
-    var resultList2 = JSON.parse('{{money_data | tojson}}')    
+    var resultList2 = JSON.parse('{{money_data | tojson}}')
 </script>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

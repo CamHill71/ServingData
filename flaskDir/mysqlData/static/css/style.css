@@ -11,7 +11,21 @@ main > .container {
     padding-left: 15px;
   }
 
-  #myChart {
-    padding-top: 2em;
+  #percentageChart {
+    padding-top: 5em;
   }
+
+  #holdingList {
+    padding-top: 5em;
+  }
+
+  #moneyChart {
+    padding-top: 5em;
+  }
+
+  #stockList{
+    margin-top: 3em !important;
+  }
+
+
   

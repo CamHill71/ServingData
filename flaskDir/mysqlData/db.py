@@ -43,12 +43,15 @@ class DataBase:
         return [ letter for letter in query ] 
     
     def get_holdings(self):
+        """ Get list of holding stocks from CSV form"""
         with open('myFlask/ServingData/flaskDir/mysqlData/Holdings_9010242_09-01-2022.csv', newline='') as csvfile:
             csvreader = csv.reader(csvfile)
             for row in csvreader:
                 if len(row[0].strip()) == 3:                    
                     if float(row[2]) != 0.0:
-                        self.holdings[row[0]] = (row[1],row[2])   
+                        self.holdings[row[0]] = (row[1],row[2])  
+                         
+            return self.holdings                
        
     def get_close(self,qty):
         """ Get list of stock closing prices """ 

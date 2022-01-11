@@ -10,6 +10,7 @@
     integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
 
     <title>{% block title %}{% endblock %} - My Webpage</title>
+    {% include 'header.html' %}
     {% endblock %}
   </head>
   <body>
@@ -21,7 +22,7 @@
     </div>
   </body>
 
-  
+  {% include 'footer.html' %}
   {% block pageScripts %}{% endblock%}
       
 </html>
