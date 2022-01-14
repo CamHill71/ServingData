@@ -49,7 +49,7 @@ class DataBase:
         eodTrade = self.get_close(0)
         for key,value in self.holdings.items():
             close = eodTrade[key]                
-            oldList = value
+            oldList = value           
             oldList.append(close[0][1]) 
             self.holdings[key] = oldList        
 
@@ -60,9 +60,10 @@ class DataBase:
         engine = create_engine(engine_string[0])
         with engine.connect()  as conn:
             for stock in self.holdings.keys():
-                result = conn.execute(text(f"SELECT `EntryDate`,`Close` FROM grails1.asx_{stock} where `EntryDate` >= date_add(date(now()),interval -{qty} day)"))   
+                result = conn.execute(text(f"SELECT `EntryDate`,`Close` FROM grails1.asx_{stock} where\
+                    `EntryDate` >= date_add((SELECT  max(`EntryDate`) FROM grails1.asx_{stock}),interval -{qty} day)"))                                         
                 self.chartData_raw[stock] = result.all()
-                
+
         return self.chartData_raw    
 
     def holdings_last_days(self,qty):
